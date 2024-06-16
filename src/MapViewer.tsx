@@ -1,29 +1,50 @@
+import * as Location from "expo-location";
+import { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { LatLng, Marker } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 import hachiko from "./hachiko.json";
 
 interface MapViewerProps {}
 
+const initialCamera = {
+  pitch: 0,
+  heading: 0,
+  altitude: 5000,
+  zoom: 0,
+};
+
 export default function MapViewer({}: MapViewerProps) {
+  const [region, setRegion] = useState<LatLng | undefined>(undefined);
+  const getPermission = async () => {
+    const resFore = await Location.requestForegroundPermissionsAsync();
+    console.log(resFore);
+    const resBack = await Location.requestBackgroundPermissionsAsync();
+    console.log(resBack);
+  };
+
+  useEffect(() => {
+    getPermission();
+    Location.watchPositionAsync({ distanceInterval: 10 }, (location) => {
+      console.log(location.coords.latitude, location.coords.longitude);
+      setRegion({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      });
+    });
+  }, []);
+
   const pathList: Coordinate[][] = [];
   for (let i = 0; i < hachiko.length; i += 20) {
     pathList.push(hachiko.slice(i, i + 21 < hachiko.length ? i + 21 : hachiko.length));
   }
-  const initialRegion = {
-    ...hachiko[0],
-    latitudeDelta: 0.01,
-    longitudeDelta: 0.01,
-  };
-  const initialCamera = {
-    center: hachiko[0],
-    pitch: 0,
-    heading: 0,
-    altitude: 0,
-    zoom: 1,
-  };
   return (
-    <MapView style={styles.map} initialRegion={initialRegion} initialCamera={initialCamera}>
+    <MapView
+      style={styles.map}
+      initialCamera={{ ...initialCamera, center: region as LatLng }}
+      camera={{ ...initialCamera, center: region as LatLng }}
+    >
+      <Marker coordinate={region as LatLng} />
       {hachiko.map((coordinate, i) => (
         <Marker key={i} coordinate={coordinate} />
       ))}
