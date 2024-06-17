@@ -15,8 +15,8 @@ export default function Page() {
   // Google 로그인 처리하는 함수
   const handleSignin = async () => {
     try {
-      //const userInfo = await GoogleSignin.signIn();
-      //setAuth(userInfo);
+      const userInfo = await GoogleSignin.signIn();
+      setAuth(userInfo);
       replace("/home");
     } catch (error) {
       if (isErrorWithCode(error)) {
@@ -49,8 +49,7 @@ export default function Page() {
 
 const styles = StyleSheet.create({
   view: {
-    paddingTop: 20,
-    paddingBottom: 20,
+    paddingVertical: 20,
     height: "100%",
     justifyContent: "space-between",
     alignItems: "center",
