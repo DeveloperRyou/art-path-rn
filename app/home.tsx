@@ -1,11 +1,13 @@
+import { useAuth } from "hooks/useAuth";
 import { Image, StyleSheet, Text, View } from "react-native";
 
 export default function Home() {
+  const { auth } = useAuth();
   return (
     <View style={styles.view}>
       <View style={styles.profile}>
         <Image source={require("assets/image/sample.png")} style={styles.profileImage} />
-        <Text style={styles.profileText}>Hello, Ryou</Text>
+        <Text style={styles.profileText}>Hello, {auth?.user.name}</Text>
       </View>
     </View>
   );
