@@ -1,6 +1,6 @@
+import { useAuth } from "@/hooks/useAuth";
 import { GoogleSignin, isErrorWithCode, statusCodes } from "@react-native-google-signin/google-signin";
 import { useRouter } from "expo-router";
-import { useAuth } from "hooks/useAuth";
 import { Alert, Image, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 GoogleSignin.configure({
@@ -45,7 +45,7 @@ export default function GoogleSigninButton() {
 const styles = StyleSheet.create({
   googleSigninButton: {
     flexDirection: "row",
-    width: 300,
+    width: "100%",
     height: 50,
     gap: 16,
     justifyContent: "center",
