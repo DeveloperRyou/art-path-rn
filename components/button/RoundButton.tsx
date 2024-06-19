@@ -21,13 +21,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 100,
-    backgroundColor: "white",
-    borderColor: "#747775",
-    borderWidth: 0.5,
+    backgroundColor: "#06C755",
   },
   buttonText: {
     fontSize: 16,
-    fontWeight: "medium",
-    color: "#1F1F1F",
+    fontWeight: "bold",
+    color: "#FFFFFF",
   },
 });
