@@ -44,7 +44,8 @@ export default function PathList() {
 const styles = StyleSheet.create({
   view: {
     width: "100%",
-    height: "100%",
+    flexGrow: 1,
+    flexShrink: 1,
     paddingVertical: 40,
   },
   pathView: {
