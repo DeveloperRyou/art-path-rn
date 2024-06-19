@@ -10,7 +10,7 @@ export default function Home() {
     <View style={styles.view}>
       <Profile />
       <PathList />
-      <RoundButton text="next" onPress={() => push("/main/modal")} />
+      <RoundButton text="散歩を始める" onPress={() => push("/main/modal")} />
     </View>
   );
 }

@@ -15,8 +15,13 @@ export default function Layout() {
         name="modal"
         options={{
           presentation: "modal",
+          headerTitle: "コースを選ぶ",
+          headerTitleStyle: {
+            fontWeight: "bold",
+            color: "#000000",
+          },
           contentStyle: {
-            backgroundColor: "#fff",
+            backgroundColor: "#FFFFFF",
           },
         }}
       />
