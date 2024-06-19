@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "image-to-path",
-    "slug": "image-to-path",
+    "name": "artpath",
+    "slug": "ArtPath",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
