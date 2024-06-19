@@ -6,12 +6,18 @@ export default function Layout() {
         name="index"
         options={{
           headerShown: false,
+          contentStyle: {
+            backgroundColor: "#fff",
+          },
         }}
       />
       <Stack.Screen
         name="modal"
         options={{
           presentation: "modal",
+          contentStyle: {
+            backgroundColor: "#fff",
+          },
         }}
       />
     </Stack>
