@@ -15,6 +15,7 @@ export default function GoogleSigninButton() {
   const handleSignin = async () => {
     try {
       // const userInfo = await GoogleSignin.signIn();
+      // console.log("userInfo", userInfo);
       // setAuth(userInfo);
       replace("/main");
     } catch (error) {

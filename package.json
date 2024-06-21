@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "main": "expo-router/entry",
   "scripts": {
-    "start": "expo start",
-    "android": "expo run:android",
-    "ios": "expo run:ios",
+    "start": "node generatePathImages.js && expo start",
     "build-ios-dev": "eas build --profile development --platform ios",
     "build-ios": "eas build -p ios",
     "submit-ios": "eas submit --platform ios"
