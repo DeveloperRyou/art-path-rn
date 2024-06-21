@@ -14,20 +14,23 @@ function getDirectories(directory) {
 
 function generatePathImage(rootDirectory) {
   const directories = getDirectories(rootDirectory);
+  const indexFilePath = path.join(rootDirectory, "pathlist");
+  fs.writeFileSync(indexFilePath, "");
 
   directories.forEach((directory) => {
-    const indexFilePath = path.join(directory, "index.ts");
     const files = fs.readdirSync(directory);
+    const category = directory.split("/").at(-1);
 
     const exports = files
       .filter((file) => file.endsWith(".png"))
       .map((file) => {
         const fileName = path.parse(file).name;
-        return `export { default as ${fileName} } from "./${fileName}.png";`;
+        return `/map/${category}/${fileName}.png`;
       });
 
     const content = exports.join("\n");
-    fs.writeFileSync(indexFilePath, content);
+    fs.appendFileSync(indexFilePath, content);
+    fs.appendFileSync(indexFilePath, "\n");
   });
 }
 
