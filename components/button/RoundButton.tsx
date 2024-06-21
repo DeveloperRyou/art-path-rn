@@ -1,7 +1,7 @@
 import { Image, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 interface RoundButtonProps {
-  type: "fill" | "outline";
+  type?: "fill" | "outline";
   buttonColor?: string;
   textColor?: string;
   onPress?: () => void;

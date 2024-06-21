@@ -1,4 +1,5 @@
 import RoundButton from "@/components/button/RoundButton";
+import HistoryList from "@/components/screen/HistoryList";
 import PathList from "@/components/screen/PathList";
 import Profile from "@/components/screen/Profile";
 import { useRouter } from "expo-router";
@@ -9,7 +10,7 @@ export default function Home() {
   return (
     <View style={styles.view}>
       <Profile />
-      <PathList />
+      <HistoryList />
       <RoundButton text="散歩を始める" onPress={() => push("/main/modal")} />
     </View>
   );
