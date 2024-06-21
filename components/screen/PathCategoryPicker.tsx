@@ -7,7 +7,6 @@ export default function PathCategoryPicker() {
   return (
     <PickerIOS
       style={styles.picker}
-      itemStyle={styles.pickerItem}
       selectedValue={currentCategory}
       onValueChange={(itemValue) => setCurrentCategory(itemValue.toString())}
     >
@@ -19,17 +18,9 @@ export default function PathCategoryPicker() {
 }
 
 const styles = StyleSheet.create({
-  view: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "flex-start",
-    padding: 20,
-    width: "100%",
-    height: "100%",
-  },
   picker: {
     width: "100%",
     marginTop: -100,
+    marginBottom: -20,
   },
-  pickerItem: { color: "#000000" },
 });

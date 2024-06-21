@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     width: "100%",
     flexGrow: 1,
     flexShrink: 1,
-    paddingVertical: 40,
+    paddingVertical: 20,
   },
   pathView: {
     width: "100%",

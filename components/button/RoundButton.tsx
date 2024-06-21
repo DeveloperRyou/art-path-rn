@@ -1,16 +1,42 @@
 import { Image, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 interface RoundButtonProps {
+  type: "fill" | "outline";
+  buttonColor?: string;
+  textColor?: string;
   onPress?: () => void;
   text: string;
 }
 
-export default function RoundButton({ onPress, text }: RoundButtonProps) {
-  return (
-    <TouchableOpacity onPress={onPress} style={styles.roundButton}>
-      <Text style={styles.buttonText}>{text}</Text>
-    </TouchableOpacity>
-  );
+export default function RoundButton({
+  type = "fill",
+  buttonColor = "#06C755",
+  textColor = "#ffffff",
+  onPress,
+  text,
+}: RoundButtonProps) {
+  switch (type) {
+    case "fill":
+      return (
+        <TouchableOpacity onPress={onPress} style={{ ...styles.roundButton, backgroundColor: buttonColor }}>
+          <Text style={{ ...styles.buttonText, color: textColor }}>{text}</Text>
+        </TouchableOpacity>
+      );
+    case "outline":
+      return (
+        <TouchableOpacity
+          onPress={onPress}
+          style={{
+            ...styles.roundButton,
+            backgroundColor: "transparent",
+            borderWidth: 1,
+            borderColor: buttonColor,
+          }}
+        >
+          <Text style={{ ...styles.buttonText, color: textColor }}>{text}</Text>
+        </TouchableOpacity>
+      );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -21,11 +47,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 100,
-    backgroundColor: "#06C755",
   },
   buttonText: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#FFFFFF",
   },
 });
