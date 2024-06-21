@@ -6,5 +6,10 @@ interface Coordinate {
 interface PathInfo {
   id: string;
   name: string;
-  imageUri: string;
+  image: any;
+}
+
+interface CoupledPathInfo {
+  pathLeft: PathInfo;
+  pathRight?: PathInfo;
 }

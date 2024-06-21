@@ -22,7 +22,7 @@ export default function PathButton({ path }: { path: PathInfo }) {
       }
       onLayout={onLayout}
     >
-      <Image style={styles.pathImage} source={{ uri: path.imageUri }} />
+      <Image style={styles.pathImage} source={path.image} />
       <View style={styles.pathTextContainer}>
         <Text style={styles.pathText}>{path.name}</Text>
       </View>
@@ -56,5 +56,6 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     width: "100%",
     height: "100%",
+    objectFit: "contain",
   },
 });

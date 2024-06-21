@@ -3,10 +3,14 @@ import { PickerIOS } from "@react-native-picker/picker";
 import { StyleSheet } from "react-native";
 
 export default function PathCategoryPicker() {
-  const { pathImages } = usePathImages();
-  console.log(pathImages);
+  const { pathImages, currentCategory, setCurrentCategory } = usePathImages();
   return (
-    <PickerIOS style={styles.picker} itemStyle={styles.pickerItem}>
+    <PickerIOS
+      style={styles.picker}
+      itemStyle={styles.pickerItem}
+      selectedValue={currentCategory}
+      onValueChange={(itemValue) => setCurrentCategory(itemValue.toString())}
+    >
       {Object.keys(pathImages).map((category) => (
         <PickerIOS.Item key={category} label={category} value={category} />
       ))}
