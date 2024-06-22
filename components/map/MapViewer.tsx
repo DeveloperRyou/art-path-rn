@@ -1,5 +1,7 @@
-import { useEffect } from "react";
-import { Image, StyleSheet, TouchableOpacity } from "react-native";
+import GoMyLocationButton from "@/components/map/GoMyLocationButton";
+import Navigation from "@/components/map/Navigation";
+import { useEffect, useRef, useState } from "react";
+import { StyleSheet } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 import useCurrentLocation from "../../hooks/useCurrentLocation";
@@ -7,7 +9,20 @@ import hachiko from "./hachiko.json";
 
 interface MapViewerProps {}
 
+const startCord = {
+  latitude: 35.8611,
+  longitude: 128.64,
+};
+const endCord = {
+  latitude: 35.859,
+  longitude: 128.6264,
+};
+
 export default function MapViewer({}: MapViewerProps) {
+  const [didInitCamera, setDidInitCamera] = useState(false);
+  const [route, setRoute] = useState<Coordinate[]>([]);
+  const ref = useRef<MapView>(null);
+
   const pathList: Coordinate[] = [];
   for (let i = 0; i < hachiko.length; i++) {
     pathList.push(hachiko[i]);
@@ -22,18 +37,21 @@ export default function MapViewer({}: MapViewerProps) {
     };
   }, []);
 
+  useEffect(() => {
+    if (currentLocation && !didInitCamera) {
+      ref.current?.animateCamera({
+        center: currentLocation,
+        altitude: 10000,
+      });
+      setDidInitCamera(true);
+    }
+  }, [currentLocation]);
+
   return (
     <>
       <MapView
+        ref={ref}
         style={styles.map}
-        onPanDrag={(event) => {
-          // use MapView's method setCamera to change the camera position
-          //console.log(event.nativeEvent.coordinate);
-        }}
-        showsBuildings
-        showsIndoorLevelPicker
-        showsTraffic
-        showsIndoors
         showsUserLocation
         onUserLocationChange={(event) => {
           console.log(event.nativeEvent.coordinate);
@@ -42,24 +60,27 @@ export default function MapViewer({}: MapViewerProps) {
         {hachiko.map((coordinate, i) => (
           <Marker key={i} coordinate={coordinate} />
         ))}
+        <Marker coordinate={startCord} />
+        <Marker coordinate={endCord} />
         <MapViewDirections
-          mode="WALKING"
-          origin={pathList[0]}
-          destination={pathList[1]}
+          mode="TRANSIT"
+          origin={startCord}
+          destination={endCord}
           apikey={process.env.EXPO_PUBLIC_API_KEY as string}
           onReady={(res) => {
-            console.log(res);
+            setRoute(res.coordinates);
           }}
         />
       </MapView>
-      <TouchableOpacity
-        style={styles.currentButton}
+      <Navigation route={route} />
+      <GoMyLocationButton
         onPress={() => {
-          console.log("currentLocation", currentLocation);
+          ref.current?.animateCamera({
+            altitude: 10000,
+            center: currentLocation,
+          });
         }}
-      >
-        <Image source={require("@/assets/image/current-location-marker.png")} />
-      </TouchableOpacity>
+      />
     </>
   );
 }
@@ -68,15 +89,5 @@ const styles = StyleSheet.create({
   map: {
     width: "100%",
     height: "100%",
-  },
-  currentButton: {
-    position: "absolute",
-    bottom: 64,
-    right: 32,
-    width: 48,
-    height: 48,
-    backgroundColor: "white",
-    borderRadius: 4,
-    padding: 8,
   },
 });
