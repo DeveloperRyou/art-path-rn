@@ -22,7 +22,7 @@ export default function useCurrentLocation() {
       { accuracy: Location.LocationAccuracy.BestForNavigation },
       (location) => {
         console.log(
-          "[useCurrentLocation]",
+          "[useCurrentLocation] subscribeLocation:",
           location.coords.latitude,
           location.coords.longitude,
           location.coords.heading
@@ -39,5 +39,18 @@ export default function useCurrentLocation() {
     }
   };
 
-  return { currentLocation, locationHistory, subscribeLocation, unsubscribeLocation };
+  const getCurrentLocation = async () => {
+    const location = await Location.getCurrentPositionAsync({
+      accuracy: Location.LocationAccuracy.BestForNavigation,
+    });
+    console.log(
+      "[useCurrentLocation] getCurrentLocation:",
+      location.coords.latitude,
+      location.coords.longitude,
+      location.coords.heading
+    );
+    return location.coords;
+  };
+
+  return { currentLocation, locationHistory, subscribeLocation, unsubscribeLocation, getCurrentLocation };
 }

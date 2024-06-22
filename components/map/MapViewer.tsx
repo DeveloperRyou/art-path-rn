@@ -1,52 +1,66 @@
-import * as Location from "expo-location";
-import { useEffect, useState } from "react";
-import { StyleSheet } from "react-native";
-import MapView, { Camera, LatLng, Marker } from "react-native-maps";
+import { useEffect } from "react";
+import { Image, StyleSheet, TouchableOpacity } from "react-native";
+import MapView, { Marker } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
-import hachiko from "./hachiko.json";
-import CurrentLocationMarker from "@/components/map/CurrentLocationMarker";
 import useCurrentLocation from "../../hooks/useCurrentLocation";
+import hachiko from "./hachiko.json";
 
 interface MapViewerProps {}
 
-const initialCamera = {
-  pitch: 0,
-  heading: 0,
-  altitude: 5000,
-  zoom: 0,
-};
-
 export default function MapViewer({}: MapViewerProps) {
-  const { currentLocation } = useCurrentLocation();
-  const [camera, setCamera] = useState<Camera>({ ...initialCamera, center: currentLocation as LatLng });
   const pathList: Coordinate[] = [];
   for (let i = 0; i < hachiko.length; i++) {
     pathList.push(hachiko[i]);
   }
 
+  const { currentLocation, subscribeLocation, unsubscribeLocation } = useCurrentLocation();
+
   useEffect(() => {
-    if (currentLocation) {
-      setCamera({ ...camera, center: currentLocation as LatLng });
-    }
-  }, [currentLocation]);
+    subscribeLocation();
+    return () => {
+      unsubscribeLocation();
+    };
+  }, []);
 
   return (
-    <MapView style={styles.map} camera={camera}>
-      <CurrentLocationMarker />
-      {hachiko.map((coordinate, i) => (
-        <Marker key={i} coordinate={coordinate} />
-      ))}
-
-      <MapViewDirections
-        mode="WALKING"
-        origin={pathList[0]}
-        destination={pathList[1]}
-        apikey={process.env.EXPO_PUBLIC_API_KEY as string}
-        onReady={(res) => {
-          console.log(res);
+    <>
+      <MapView
+        style={styles.map}
+        onPanDrag={(event) => {
+          // use MapView's method setCamera to change the camera position
+          //console.log(event.nativeEvent.coordinate);
         }}
-      />
-    </MapView>
+        showsBuildings
+        showsIndoorLevelPicker
+        showsTraffic
+        showsIndoors
+        showsUserLocation
+        onUserLocationChange={(event) => {
+          console.log(event.nativeEvent.coordinate);
+        }}
+      >
+        {hachiko.map((coordinate, i) => (
+          <Marker key={i} coordinate={coordinate} />
+        ))}
+        <MapViewDirections
+          mode="WALKING"
+          origin={pathList[0]}
+          destination={pathList[1]}
+          apikey={process.env.EXPO_PUBLIC_API_KEY as string}
+          onReady={(res) => {
+            console.log(res);
+          }}
+        />
+      </MapView>
+      <TouchableOpacity
+        style={styles.currentButton}
+        onPress={() => {
+          console.log("currentLocation", currentLocation);
+        }}
+      >
+        <Image source={require("@/assets/image/current-location-marker.png")} />
+      </TouchableOpacity>
+    </>
   );
 }
 
@@ -54,5 +68,15 @@ const styles = StyleSheet.create({
   map: {
     width: "100%",
     height: "100%",
+  },
+  currentButton: {
+    position: "absolute",
+    bottom: 64,
+    right: 32,
+    width: 48,
+    height: 48,
+    backgroundColor: "white",
+    borderRadius: 4,
+    padding: 8,
   },
 });
