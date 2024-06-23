@@ -12,7 +12,7 @@ function getDirectories(directory) {
 
 function generatePathImage(rootDirectory, prefix = "") {
   const directories = getDirectories(rootDirectory);
-  const indexFilePath = path.join(rootDirectory, "pathlist");
+  const indexFilePath = path.join(rootDirectory, "pathlist-" + prefix);
   fs.writeFileSync(indexFilePath, "");
 
   directories.forEach((directory) => {
