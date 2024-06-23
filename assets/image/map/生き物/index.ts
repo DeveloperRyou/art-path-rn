@@ -1,0 +1,17 @@
+export { default as うさぎ } from "./うさぎ.png";
+export { default as イルカ } from "./イルカ.png";
+export { default as カエル } from "./カエル.png";
+export { default as カタツムリ } from "./カタツムリ.png";
+export { default as キリン } from "./キリン.png";
+export { default as クローバー } from "./クローバー.png";
+export { default as コウモリ } from "./コウモリ.png";
+export { default as チューリップ } from "./チューリップ.png";
+export { default as チーター } from "./チーター.png";
+export { default as トナカイ } from "./トナカイ.png";
+export { default as ネズミ } from "./ネズミ.png";
+export { default as バラ } from "./バラ.png";
+export { default as マグロ } from "./マグロ.png";
+export { default as 熊 } from "./熊.png";
+export { default as 牛 } from "./牛.png";
+export { default as 狼 } from "./狼.png";
+export { default as 猫 } from "./猫.png";

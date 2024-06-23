@@ -3,8 +3,6 @@
 const fs = require("fs");
 const path = require("path");
 
-const PNG_ROOT_DIRECTORY = "./assets/image/map";
-
 function getDirectories(directory) {
   return fs
     .readdirSync(directory, { withFileTypes: true })
@@ -34,4 +32,5 @@ function generatePathImage(rootDirectory) {
   });
 }
 
-generatePathImage(PNG_ROOT_DIRECTORY);
+generatePathImage("./assets/image/map");
+generatePathImage("./assets/image/map-finish");
