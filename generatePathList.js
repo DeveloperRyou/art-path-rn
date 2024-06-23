@@ -10,7 +10,7 @@ function getDirectories(directory) {
     .map((dirent) => path.join(directory, dirent.name));
 }
 
-function generatePathImage(rootDirectory) {
+function generatePathImage(rootDirectory, prefix = "") {
   const directories = getDirectories(rootDirectory);
   const indexFilePath = path.join(rootDirectory, "pathlist");
   fs.writeFileSync(indexFilePath, "");
@@ -23,7 +23,7 @@ function generatePathImage(rootDirectory) {
       .filter((file) => file.endsWith(".png"))
       .map((file) => {
         const fileName = path.parse(file).name;
-        return `/map/${category}/${fileName}.png`;
+        return `/${prefix}/${category}/${fileName}.png`;
       });
 
     const content = exports.join("\n");
@@ -32,5 +32,5 @@ function generatePathImage(rootDirectory) {
   });
 }
 
-generatePathImage("./assets/image/map");
-generatePathImage("./assets/image/map-finish");
+generatePathImage("./assets/image/map", "map");
+generatePathImage("./assets/image/map-finish", "map-finish");
