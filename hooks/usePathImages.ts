@@ -12,9 +12,11 @@ const categoryAtom = atom<string>("記号");
 export default function usePathImages() {
   const [pathImages, setPathImages] = useAtom(pathImagesAtom);
   const [currentCategory, setCurrentCategory] = useAtom(categoryAtom);
-  useEffect(() => {
-    getIllustMetadataList().then((illustMetadataList) => {
-      // make pathImages
+  const setAtomsInitialValue = async () => {
+    try {
+      const illustMetadataList = await getIllustMetadataList();
+      console.log(illustMetadataList);
+
       const newPaths: PathImages = {};
       illustMetadataList.forEach((illustMetadata) => {
         const category = illustMetadata.genre;
@@ -24,12 +26,16 @@ export default function usePathImages() {
         newPaths[category][illustMetadata.name] = illustMetadata.original_image;
       });
       setPathImages(newPaths);
-
-      // set currentCategory
       if (!newPaths[currentCategory]) {
         setCurrentCategory(Object.keys(newPaths)[0]);
       }
-    });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    setAtomsInitialValue();
   }, []);
 
   return { pathImages, currentCategory, setCurrentCategory };

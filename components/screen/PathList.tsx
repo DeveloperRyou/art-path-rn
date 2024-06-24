@@ -8,6 +8,7 @@ export default function PathList() {
   const [coupledPaths, setCoupledPaths] = useState<{ pathLeft: PathInfo; pathRight?: PathInfo }[]>([]);
 
   useEffect(() => {
+    if (!pathImages[currentCategory]) return;
     const paths: PathInfo[] = Object.keys(pathImages[currentCategory]).map((key) => ({
       id: key,
       name: key,
