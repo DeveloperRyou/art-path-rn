@@ -59,7 +59,7 @@ export default function MapViewer({}: MapViewerProps) {
           <Marker key={i} coordinate={coordinate} />
         ))}
         <MapViewDirections
-          mode="TRANSIT"
+          mode="WALKING"
           origin={startCord as Coordinate}
           destination={endCord}
           apikey={process.env.EXPO_PUBLIC_API_KEY as string}

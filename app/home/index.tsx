@@ -4,7 +4,7 @@ import { Image, StyleSheet } from "react-native";
 export default function Page() {
   return (
     <>
-      <Image source={require("assets/image/sample.png")} style={styles.image} />
+      <Image source={require("@/assets/splash.png")} style={styles.image} />
       <GoogleSigninButton />
     </>
   );
@@ -13,6 +13,6 @@ export default function Page() {
 const styles = StyleSheet.create({
   image: {
     width: "100%",
-    height: 350,
+    height: 500,
   },
 });
