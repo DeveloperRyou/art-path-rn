@@ -6,21 +6,22 @@ import MapView, { Marker } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 import useCurrentLocation from "../../hooks/useCurrentLocation";
 import hachiko from "./hachiko.json";
+import { LocationObjectCoords } from "expo-location";
+import FinishRoute from "@/components/map/FinishRoute";
 
 interface MapViewerProps {}
 
-const startCord = {
-  latitude: 35.8611,
-  longitude: 128.64,
-};
 const endCord = {
-  latitude: 35.859,
-  longitude: 128.6264,
+  latitude: 36.4135,
+  longitude: 127.338,
 };
 
 export default function MapViewer({}: MapViewerProps) {
+  const { currentLocation, setLocation } = useCurrentLocation();
+  const [startCord, setStartCord] = useState<Coordinate>();
   const [didInitCamera, setDidInitCamera] = useState(false);
   const [route, setRoute] = useState<Coordinate[]>([]);
+  const [isFinished, setIsFinished] = useState(false);
   const ref = useRef<MapView>(null);
 
   const pathList: Coordinate[] = [];
@@ -28,17 +29,9 @@ export default function MapViewer({}: MapViewerProps) {
     pathList.push(hachiko[i]);
   }
 
-  const { currentLocation, subscribeLocation, unsubscribeLocation } = useCurrentLocation();
-
-  useEffect(() => {
-    subscribeLocation();
-    return () => {
-      unsubscribeLocation();
-    };
-  }, []);
-
   useEffect(() => {
     if (currentLocation && !didInitCamera) {
+      setStartCord(currentLocation);
       ref.current?.animateCamera({
         center: currentLocation,
         altitude: 10000,
@@ -54,17 +47,20 @@ export default function MapViewer({}: MapViewerProps) {
         style={styles.map}
         showsUserLocation
         onUserLocationChange={(event) => {
-          console.log(event.nativeEvent.coordinate);
+          if (event.nativeEvent.coordinate === undefined) return;
+          console.log("[onUserLocationChange]", event.nativeEvent.coordinate);
+          setLocation(event.nativeEvent.coordinate as LocationObjectCoords);
         }}
       >
         {hachiko.map((coordinate, i) => (
           <Marker key={i} coordinate={coordinate} />
         ))}
-        <Marker coordinate={startCord} />
-        <Marker coordinate={endCord} />
+        {route.map((coordinate, i) => (
+          <Marker key={i} coordinate={coordinate} />
+        ))}
         <MapViewDirections
           mode="TRANSIT"
-          origin={startCord}
+          origin={startCord as Coordinate}
           destination={endCord}
           apikey={process.env.EXPO_PUBLIC_API_KEY as string}
           onReady={(res) => {
@@ -72,7 +68,12 @@ export default function MapViewer({}: MapViewerProps) {
           }}
         />
       </MapView>
-      <Navigation route={route} />
+      <Navigation
+        route={route}
+        callbackFinishNavigation={() => {
+          setIsFinished(true);
+        }}
+      />
       <GoMyLocationButton
         onPress={() => {
           ref.current?.animateCamera({
@@ -81,6 +82,7 @@ export default function MapViewer({}: MapViewerProps) {
           });
         }}
       />
+      {isFinished && <FinishRoute />}
     </>
   );
 }

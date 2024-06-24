@@ -5,7 +5,6 @@ const locationHistoryAtom = atom<Location.LocationObjectCoords[]>([]);
 const currentLocationAtom = atom<Location.LocationObjectCoords | undefined>(undefined);
 
 export default function useCurrentLocation() {
-  let locationTracker: Location.LocationSubscription | undefined;
   const [locationHistory, setLocationHistory] = useAtom(locationHistoryAtom);
   const [currentLocation, setCurrentLocation] = useAtom(currentLocationAtom);
 
@@ -16,30 +15,13 @@ export default function useCurrentLocation() {
     console.log("[useCurrentLocation]", resBack);
   };
 
-  const subscribeLocation = async () => {
-    await getPermission();
-    locationTracker = await Location.watchPositionAsync(
-      { accuracy: Location.LocationAccuracy.BestForNavigation },
-      (location) => {
-        console.log(
-          "[useCurrentLocation] subscribeLocation:",
-          location.coords.latitude,
-          location.coords.longitude,
-          location.coords.heading
-        );
-        setCurrentLocation(location.coords);
-        setLocationHistory([...locationHistory, location.coords]);
-      }
-    );
-  };
-
-  const unsubscribeLocation = async () => {
-    if (locationTracker) {
-      locationTracker.remove();
-    }
+  const setLocation = (coord: Location.LocationObjectCoords) => {
+    setCurrentLocation(coord);
+    setLocationHistory([...locationHistory, coord]);
   };
 
   const getCurrentLocation = async () => {
+    await getPermission();
     const location = await Location.getCurrentPositionAsync({
       accuracy: Location.LocationAccuracy.BestForNavigation,
     });
@@ -52,5 +34,5 @@ export default function useCurrentLocation() {
     return location.coords;
   };
 
-  return { currentLocation, locationHistory, subscribeLocation, unsubscribeLocation, getCurrentLocation };
+  return { currentLocation, locationHistory, setLocation, getCurrentLocation };
 }
