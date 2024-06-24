@@ -1,6 +1,5 @@
 import RoundButton from "@/components/button/RoundButton";
 import HistoryList from "@/components/screen/HistoryList";
-import PathList from "@/components/screen/PathList";
 import Profile from "@/components/screen/Profile";
 import { useRouter } from "expo-router";
 import { StyleSheet, View } from "react-native";

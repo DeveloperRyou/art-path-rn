@@ -1,26 +1,21 @@
 import PathButton from "@/components/button/PathButton";
-import usePathImages from "@/hooks/usePathImages";
+import usePathHistorys from "@/hooks/usePathHistorys";
 import { useEffect, useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 
 export default function HistoryList() {
-  const { pathImages, currentCategory } = usePathImages();
+  const { pathHistorys } = usePathHistorys();
   const [coupledPaths, setCoupledPaths] = useState<{ pathLeft: PathInfo; pathRight?: PathInfo }[]>([]);
 
   useEffect(() => {
-    const paths: PathInfo[] = Object.keys(pathImages[currentCategory]).map((key) => ({
-      id: key,
-      name: key,
-      image: pathImages[currentCategory][key],
-    }));
-    const newCoupledPaths: { pathLeft: PathInfo; pathRight?: PathInfo }[] = paths.reduce((acc, path, index) => {
+    const newCoupledPaths: { pathLeft: PathInfo; pathRight?: PathInfo }[] = pathHistorys.reduce((acc, path, index) => {
       if (index % 2 === 0) {
-        acc.push({ pathLeft: path, pathRight: paths[index + 1] });
+        acc.push({ pathLeft: path, pathRight: pathHistorys[index + 1] });
       }
       return acc;
     }, [] as { pathLeft: PathInfo; pathRight?: PathInfo }[]);
     setCoupledPaths(newCoupledPaths);
-  }, [currentCategory]);
+  }, []);
 
   return (
     <View style={styles.view}>
