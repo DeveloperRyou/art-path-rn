@@ -5,7 +5,7 @@ interface ApiResponse {
   msg: string;
 }
 
-const url = "http://3.39.210.241";
+const url = process.env.EXPO_PUBLIC_API_URL || "http://localhost:3000";
 
 const api = axios.create({
   baseURL: url,

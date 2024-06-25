@@ -11,9 +11,7 @@ async function getUser(id: string): Promise<User> {
 }
 
 async function postUser(user: User): Promise<User> {
-  const res = await api.post<User>(`/users`, {
-    user,
-  });
+  const res = await api.post<User>(`/users`, user);
   return res.data;
 }
 
