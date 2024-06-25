@@ -22,7 +22,7 @@ export default function PathButton({ path }: { path: PathInfo }) {
       }
       onLayout={onLayout}
     >
-      <Image style={styles.pathImage} source={path.image} />
+      <Image style={styles.pathImage} source={{ uri: path.original_image }} />
       <View style={styles.pathTextContainer}>
         <Text style={styles.pathText}>{path.name}</Text>
       </View>

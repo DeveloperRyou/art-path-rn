@@ -9,14 +9,16 @@ import hachiko from "./hachiko.json";
 import { LocationObjectCoords } from "expo-location";
 import FinishRoute from "@/components/map/FinishRoute";
 
-interface MapViewerProps {}
+interface MapViewerProps {
+  id: string;
+}
 
 const endCord = {
   latitude: 36.4135,
   longitude: 127.338,
 };
 
-export default function MapViewer({}: MapViewerProps) {
+export default function MapViewer({ id }: MapViewerProps) {
   const { currentLocation, setLocation } = useCurrentLocation();
   const [startCord, setStartCord] = useState<Coordinate>();
   const [didInitCamera, setDidInitCamera] = useState(false);
@@ -58,15 +60,18 @@ export default function MapViewer({}: MapViewerProps) {
         {route.map((coordinate, i) => (
           <Marker key={i} coordinate={coordinate} />
         ))}
-        <MapViewDirections
-          mode="WALKING"
-          origin={startCord as Coordinate}
-          destination={endCord}
-          apikey={process.env.EXPO_PUBLIC_API_KEY as string}
-          onReady={(res) => {
-            setRoute(res.coordinates);
-          }}
-        />
+        {hachiko.map((coordinate, i) => (
+          <MapViewDirections
+            key={i}
+            mode="WALKING"
+            origin={hachiko[i]}
+            destination={hachiko[i + 1]}
+            apikey={process.env.EXPO_PUBLIC_API_KEY as string}
+            onReady={(res) => {
+              pathList.push(...res.coordinates);
+            }}
+          />
+        ))}
       </MapView>
       <Navigation
         route={route}

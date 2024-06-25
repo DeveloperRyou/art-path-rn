@@ -9,11 +9,7 @@ export default function PathList() {
 
   useEffect(() => {
     if (!pathImages[currentCategory]) return;
-    const paths: PathInfo[] = Object.keys(pathImages[currentCategory]).map((key) => ({
-      id: key,
-      name: key,
-      image: pathImages[currentCategory][key],
-    }));
+    const paths: PathInfo[] = Object.keys(pathImages[currentCategory]).map((item) => pathImages[currentCategory][item]);
     const newCoupledPaths: { pathLeft: PathInfo; pathRight?: PathInfo }[] = paths.reduce((acc, path, index) => {
       if (index % 2 === 0) {
         acc.push({ pathLeft: path, pathRight: paths[index + 1] });

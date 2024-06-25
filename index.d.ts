@@ -4,9 +4,10 @@ interface Coordinate {
 }
 
 interface PathInfo {
+  genre: string;
   id: string;
   name: string;
-  image: any;
+  original_image: string;
 }
 
 interface CoupledPathInfo {

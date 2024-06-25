@@ -3,7 +3,7 @@ import { atom, useAtom } from "jotai";
 import { useEffect } from "react";
 
 interface PathImages {
-  [key: string]: { [key: string]: any };
+  [key: string]: { [key: string]: PathInfo };
 }
 
 const pathImagesAtom = atom<PathImages>({});
@@ -15,7 +15,7 @@ export default function usePathImages() {
   const setAtomsInitialValue = async () => {
     try {
       const illustMetadataList = await getIllustMetadataList();
-      console.log(illustMetadataList);
+      console.log("[usePathImages] illustMetadataList", illustMetadataList.length);
 
       const newPaths: PathImages = {};
       illustMetadataList.forEach((illustMetadata) => {
@@ -23,7 +23,7 @@ export default function usePathImages() {
         if (!newPaths[category]) {
           newPaths[category] = {};
         }
-        newPaths[category][illustMetadata.name] = illustMetadata.original_image;
+        newPaths[category][illustMetadata.name] = illustMetadata;
       });
       setPathImages(newPaths);
       if (!newPaths[currentCategory]) {
