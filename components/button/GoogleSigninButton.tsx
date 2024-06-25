@@ -1,7 +1,6 @@
 import { getUser, postUser } from "@/apis/users";
 import { useAuth } from "@/hooks/useAuth";
 import { GoogleSignin, isErrorWithCode, statusCodes } from "@react-native-google-signin/google-signin";
-import { AxiosError } from "axios";
 import { useRouter } from "expo-router";
 import { Alert, Image, StyleSheet, Text, TouchableOpacity } from "react-native";
 
@@ -20,20 +19,20 @@ export default function GoogleSigninButton() {
       setAuth(userInfo);
       try {
         const res = await getUser(userInfo.user.id);
-        console.log("res", res);
+        console.log("[getUser] res", res);
         replace("/main");
       } catch (error) {
         try {
+          console.log(userInfo.user.id, userInfo.user.name, userInfo.user.photo);
           const res = await postUser({
             id: userInfo.user.id,
             username: userInfo.user.name ?? "",
             profile_image: userInfo.user.photo ?? "",
           });
-          console.log("res", res);
+          console.log("[postUser] res", res);
           replace("/main");
         } catch (error) {
-          console.error(error);
-          replace("/main");
+          alert(error);
         }
       }
     } catch (error) {
