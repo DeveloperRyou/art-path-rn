@@ -15,10 +15,7 @@ export default function PathButton({ path, display = true }: { path: PathInfo; d
       onPress={() =>
         display &&
         navigate({
-          pathname: "/path",
-          params: {
-            id: path.id,
-          },
+          pathname: `/path/${path.id}`,
         })
       }
       onLayout={onLayout}
