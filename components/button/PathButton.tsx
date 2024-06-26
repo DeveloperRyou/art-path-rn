@@ -2,7 +2,7 @@ import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Image, LayoutChangeEvent, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-export default function PathButton({ path }: { path: PathInfo }) {
+export default function PathButton({ path, display = true }: { path: PathInfo; display?: boolean }) {
   const { navigate } = useRouter();
   const [height, setHeight] = useState(0);
   const onLayout = (event: LayoutChangeEvent) => {
@@ -13,6 +13,7 @@ export default function PathButton({ path }: { path: PathInfo }) {
     <TouchableOpacity
       style={{ ...styles.pathButton, height }}
       onPress={() =>
+        display &&
         navigate({
           pathname: "/path",
           params: {
@@ -23,9 +24,11 @@ export default function PathButton({ path }: { path: PathInfo }) {
       onLayout={onLayout}
     >
       <Image style={styles.pathImage} source={{ uri: path.original_image }} />
-      <View style={styles.pathTextContainer}>
-        <Text style={styles.pathText}>{path.name}</Text>
-      </View>
+      {display && (
+        <View style={styles.pathTextContainer}>
+          <Text style={styles.pathText}>{path.name}</Text>
+        </View>
+      )}
     </TouchableOpacity>
   );
 }

@@ -54,9 +54,6 @@ export default function MapViewer({ id }: MapViewerProps) {
           setLocation(event.nativeEvent.coordinate as LocationObjectCoords);
         }}
       >
-        {hachiko.map((coordinate, i) => (
-          <Marker key={i} coordinate={coordinate} />
-        ))}
         {route.map((coordinate, i) => (
           <Marker key={i} coordinate={coordinate} />
         ))}
@@ -70,6 +67,8 @@ export default function MapViewer({ id }: MapViewerProps) {
             onReady={(res) => {
               pathList.push(...res.coordinates);
             }}
+            strokeWidth={4}
+            strokeColor={i < 100 ? "blue" : "#A0A0A0"}
           />
         ))}
       </MapView>
