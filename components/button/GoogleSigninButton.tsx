@@ -54,8 +54,7 @@ export default function GoogleSigninButton() {
   };
   return (
     <TouchableOpacity onPress={() => handleSignin()} style={styles.googleSigninButton}>
-      <Image source={require("assets/icon/google.png")} style={styles.googleIcon} />
-      <Text style={styles.googleSigninText}>Sign in with Google</Text>
+      <Text style={styles.googleSigninText}>Googleでログイン</Text>
     </TouchableOpacity>
   );
 }
@@ -68,18 +67,16 @@ const styles = StyleSheet.create({
     gap: 16,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 100,
-    backgroundColor: "white",
-    borderColor: "#747775",
-    borderWidth: 0.5,
+    borderRadius: 8,
+    backgroundColor: "#11CCF1",
   },
   googleIcon: {
     width: 24,
     height: 24,
   },
   googleSigninText: {
-    fontSize: 16,
-    fontWeight: "medium",
-    color: "#1F1F1F",
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#FFF",
   },
 });

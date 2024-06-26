@@ -5,7 +5,7 @@ interface ApiResponse {
   msg: string;
 }
 
-const url = process.env.https://art-path.net || "http://localhost:3000";
+const url = "https://art-path.net";
 
 const api = axios.create({
   baseURL: url,

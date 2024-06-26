@@ -66,7 +66,7 @@ export default function MapViewer({ id }: MapViewerProps) {
             mode="WALKING"
             origin={route[i]}
             destination={route[i + 1]}
-            apikey={(process.env.AIzaSyDNOO0VmI3stBc7bcXxNz2RuUF_MT - epQ8) as string}
+            apikey={"AIzaSyDNOO0VmI3stBc7bcXxNz2RuUF_MT-epQ8"}
             strokeWidth={4}
             strokeColor={i < routeIndex ? "blue" : "#A0A0A0"}
           />
