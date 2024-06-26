@@ -1,9 +1,11 @@
 import RoundButton from "@/components/button/RoundButton";
+import useRouting from "@/hooks/useRouting";
 import { useRouter } from "expo-router";
 import { Image, StyleSheet, View } from "react-native";
 
 export default function FinishRoute() {
   const { push } = useRouter();
+  const { setIsScreenShot } = useRouting();
   return (
     <View style={styles.view}>
       <Image style={styles.image} source={require("@/assets/image/navigation/finish.png")} />
@@ -12,6 +14,15 @@ export default function FinishRoute() {
         buttonColor="#101010"
         onPress={() => {
           push("/main");
+        }}
+      />
+      <RoundButton
+        text="スクリーンショットをする"
+        buttonColor="#ffffff"
+        textColor="#000000"
+        type="outline"
+        onPress={() => {
+          setIsScreenShot(true);
         }}
       />
     </View>

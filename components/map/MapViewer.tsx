@@ -1,43 +1,43 @@
+import FinishRoute from "@/components/map/FinishRoute";
 import GoMyLocationButton from "@/components/map/GoMyLocationButton";
 import Navigation from "@/components/map/Navigation";
+import useRouting from "@/hooks/useRouting";
+import { LocationObjectCoords } from "expo-location";
 import { useEffect, useRef, useState } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 import useCurrentLocation from "../../hooks/useCurrentLocation";
-import hachiko from "./hachiko.json";
-import { LocationObjectCoords } from "expo-location";
-import FinishRoute from "@/components/map/FinishRoute";
+import MakingRouteDisplay from "@/components/map/MakingRouteDisplay";
+import { postRecord } from "@/apis/record";
+import { useAuth } from "@/hooks/useAuth";
 
 interface MapViewerProps {
   id: string;
 }
-
-const endCord = {
-  latitude: 36.4135,
-  longitude: 127.338,
-};
-
 export default function MapViewer({ id }: MapViewerProps) {
+  const { auth } = useAuth();
+  const { route, routeIndex, makeRoute, isScreenShot, setIsScreenShot } = useRouting();
   const { currentLocation, setLocation } = useCurrentLocation();
-  const [startCord, setStartCord] = useState<Coordinate>();
   const [didInitCamera, setDidInitCamera] = useState(false);
-  const [route, setRoute] = useState<Coordinate[]>([]);
-  const [isFinished, setIsFinished] = useState(false);
+  const [isStarted, setIsStarted] = useState(false);
   const ref = useRef<MapView>(null);
 
-  const pathList: Coordinate[] = [];
-  for (let i = 0; i < hachiko.length; i++) {
-    pathList.push(hachiko[i]);
-  }
+  useEffect(() => {
+    if (routeIndex + 1 >= route.length) {
+      postRecord(auth?.user.id ?? "", id).catch((e) => {
+        console.error(e);
+      });
+    }
+  }, [routeIndex]);
 
   useEffect(() => {
     if (currentLocation && !didInitCamera) {
-      setStartCord(currentLocation);
       ref.current?.animateCamera({
         center: currentLocation,
-        altitude: 10000,
+        altitude: 20000,
       });
+      makeRoute(id, currentLocation);
       setDidInitCamera(true);
     }
   }, [currentLocation]);
@@ -54,39 +54,42 @@ export default function MapViewer({ id }: MapViewerProps) {
           setLocation(event.nativeEvent.coordinate as LocationObjectCoords);
         }}
       >
+        {!isScreenShot && (
+          <>
+            <Marker coordinate={route[routeIndex]} image={require("@/assets/image/start-marker.png")} />
+            <Marker coordinate={route[routeIndex + 1]} image={require("@/assets/image/end-marker.png")} />
+          </>
+        )}
         {route.map((coordinate, i) => (
-          <Marker key={i} coordinate={coordinate} />
-        ))}
-        {hachiko.map((coordinate, i) => (
           <MapViewDirections
             key={i}
             mode="WALKING"
-            origin={hachiko[i]}
-            destination={hachiko[i + 1]}
+            origin={route[i]}
+            destination={route[i + 1]}
             apikey={process.env.EXPO_PUBLIC_API_KEY as string}
-            onReady={(res) => {
-              pathList.push(...res.coordinates);
-            }}
             strokeWidth={4}
-            strokeColor={i < 100 ? "blue" : "#A0A0A0"}
+            strokeColor={i < routeIndex ? "blue" : "#A0A0A0"}
           />
         ))}
       </MapView>
-      <Navigation
-        route={route}
-        callbackFinishNavigation={() => {
-          setIsFinished(true);
-        }}
-      />
-      <GoMyLocationButton
-        onPress={() => {
-          ref.current?.animateCamera({
-            altitude: 10000,
-            center: currentLocation,
-          });
-        }}
-      />
-      {isFinished && <FinishRoute />}
+      {!isScreenShot && <Navigation />}
+      {!isScreenShot && (
+        <GoMyLocationButton
+          onPress={() => {
+            ref.current?.animateCamera({
+              altitude: 20000,
+              center: currentLocation,
+            });
+          }}
+        />
+      )}
+      {!isScreenShot && isStarted === false && <MakingRouteDisplay startRoute={() => setIsStarted(true)} />}
+      {!isScreenShot && isStarted && routeIndex + 1 >= route.length && <FinishRoute />}
+      {isScreenShot && (
+        <TouchableOpacity onPress={() => setIsScreenShot(true)}>
+          <Text>Back</Text>
+        </TouchableOpacity>
+      )}
     </>
   );
 }

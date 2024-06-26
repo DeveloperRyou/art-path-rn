@@ -17,6 +17,7 @@ const api = axios.create({
   validateStatus: (status) => {
     return status < 300;
   },
+  timeout: 0,
 });
 
 export default api;
