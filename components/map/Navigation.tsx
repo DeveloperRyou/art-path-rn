@@ -20,13 +20,13 @@ export default function Navigation() {
     if (!route || route.length < 2) {
       return;
     }
-    if (routeIndex + 1 >= route.length) {
+    if (routeIndex >= route.length) {
       return;
     }
     const dis = calculateDistance(currentLocation as Coordinate, route[routeIndex + 1]);
     const disRounded = Math.round(dis * 100) / 100;
     setDistance(disRounded);
-    if (disRounded < 0.1 && routeIndex + 2 < route.length) {
+    if (disRounded < 0.1 && routeIndex < route.length) {
       setRouteIndex((prev) => prev + 1);
       return;
     }
@@ -116,6 +116,5 @@ const styles = StyleSheet.create({
   tempButton: {
     borderRadius: 8,
     padding: 10,
-    backgroundColor: "#fff",
   },
 });

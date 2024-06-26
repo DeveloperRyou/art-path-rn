@@ -1,9 +1,11 @@
 import RoundButton from "@/components/button/RoundButton";
+import useCurrentLocation from "@/hooks/useCurrentLocation";
 import useRouting from "@/hooks/useRouting";
 import { useRouter } from "expo-router";
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 
 export default function MakingRouteDisplay({ startRoute }: { startRoute: () => void }) {
+  const { currentLocation } = useCurrentLocation();
   const { route, remakeRoute } = useRouting();
   const { push } = useRouter();
   return (
@@ -14,7 +16,12 @@ export default function MakingRouteDisplay({ startRoute }: { startRoute: () => v
             <Text style={{ color: "#fff", fontSize: 20 }}>作成 {route.length} 点</Text>
           ) : (
             <>
-              <Text style={{ color: "#fff", fontSize: 20 }}>ルートを作成中...</Text>
+              {currentLocation ? (
+                <Text style={{ color: "#fff", fontSize: 20 }}>ルートを作成中...</Text>
+              ) : (
+                <Text style={{ color: "#fff", fontSize: 20 }}>位置情報を取得中...</Text>
+              )}
+
               <ActivityIndicator size="large" color="#06C755" />
             </>
           )}

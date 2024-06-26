@@ -13,7 +13,7 @@ async function getRecordList(user_id: string): Promise<RecordInfo[]> {
 }
 
 async function postRecord(user_id: string, illust_metadata_id: string): Promise<RecordInfo> {
-  const res = await api.post<RecordInfo>(`/records/${user_id}/${illust_metadata_id}`);
+  const res = await api.post<RecordInfo>(`/record/${user_id}/${illust_metadata_id}`);
   return res.data;
 }
 

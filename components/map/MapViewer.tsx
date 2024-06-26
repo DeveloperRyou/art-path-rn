@@ -24,7 +24,7 @@ export default function MapViewer({ id }: MapViewerProps) {
   const ref = useRef<MapView>(null);
 
   useEffect(() => {
-    if (routeIndex + 1 >= route.length) {
+    if (routeIndex >= route.length && route.length > 0) {
       postRecord(auth?.user.id ?? "", id).catch((e) => {
         console.error(e);
       });
@@ -84,9 +84,12 @@ export default function MapViewer({ id }: MapViewerProps) {
         />
       )}
       {!isScreenShot && isStarted === false && <MakingRouteDisplay startRoute={() => setIsStarted(true)} />}
-      {!isScreenShot && isStarted && routeIndex + 1 >= route.length && <FinishRoute />}
+      {!isScreenShot && isStarted && routeIndex >= route.length && <FinishRoute />}
       {isScreenShot && (
-        <TouchableOpacity onPress={() => setIsScreenShot(true)}>
+        <TouchableOpacity
+          style={{ position: "absolute", top: 80, left: 20, borderWidth: 1, padding: 8, borderRadius: 4 }}
+          onPress={() => setIsScreenShot(false)}
+        >
           <Text>Back</Text>
         </TouchableOpacity>
       )}
