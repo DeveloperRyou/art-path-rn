@@ -6,7 +6,9 @@
     "start": "node generatePathImages.js && expo start",
     "build-ios-dev": "eas build --profile development --platform ios",
     "build-ios": "eas build -p ios",
-    "submit-ios": "eas submit --platform ios"
+    "submit-ios": "eas submit --platform ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios"
   },
   "dependencies": {
     "@react-native-google-signin/google-signin": "^12.2.1",
