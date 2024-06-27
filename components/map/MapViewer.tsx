@@ -90,7 +90,7 @@ export default function MapViewer({ id }: MapViewerProps) {
           style={{ position: "absolute", top: 80, left: 20, borderWidth: 1, padding: 8, borderRadius: 4 }}
           onPress={() => setIsScreenShot(false)}
         >
-          <Text>Back</Text>
+          <Text>戻る</Text>
         </TouchableOpacity>
       )}
     </>

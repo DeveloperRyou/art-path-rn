@@ -13,7 +13,7 @@ export default function MakingRouteDisplay({ startRoute }: { startRoute: () => v
       <View style={styles.innerView}>
         <View style={{ gap: 16, flexDirection: "row", alignContent: "center", alignItems: "center" }}>
           {route.length > 0 ? (
-            <Text style={{ color: "#fff", fontSize: 20 }}>作成 {route.length} 点</Text>
+            <Text style={{ color: "#fff", fontSize: 20 }}>作成が終わりました。</Text>
           ) : (
             <>
               {currentLocation ? (
@@ -29,11 +29,11 @@ export default function MakingRouteDisplay({ startRoute }: { startRoute: () => v
         <View style={{ gap: 16, flexDirection: "column", width: "100%" }}>
           {route.length > 0 ? (
             <>
-              <RoundButton text="Start" onPress={() => startRoute()} />
+              <RoundButton text="はじめる" onPress={() => startRoute()} />
               <RoundButton text="作り直し" type="outline" buttonColor="#fff" onPress={() => remakeRoute()} />
             </>
           ) : (
-            <RoundButton text="Go Back" type="outline" buttonColor="#fff" onPress={() => push("/main")} />
+            <RoundButton text="戻る" type="outline" buttonColor="#fff" onPress={() => push("/main")} />
           )}
         </View>
       </View>

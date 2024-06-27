@@ -10,14 +10,14 @@ export default function FinishRoute() {
     <View style={styles.view}>
       <Image style={styles.image} source={require("@/assets/image/navigation/finish.png")} />
       <RoundButton
-        text="Goto MainPage"
+        text="メインページへ戻る"
         buttonColor="#101010"
         onPress={() => {
           push("/main");
         }}
       />
       <RoundButton
-        text="スクリーンショットをする"
+        text="スクリーンショット画面へ"
         buttonColor="#ffffff"
         textColor="#ffffff"
         type="outline"
