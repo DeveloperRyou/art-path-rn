@@ -19,7 +19,7 @@ export default function FinishRoute() {
       <RoundButton
         text="スクリーンショットをする"
         buttonColor="#ffffff"
-        textColor="#000000"
+        textColor="#ffffff"
         type="outline"
         onPress={() => {
           setIsScreenShot(true);
