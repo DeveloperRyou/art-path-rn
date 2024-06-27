@@ -26,6 +26,7 @@ export default function MapViewer({ id }: MapViewerProps) {
   useEffect(() => {
     if (routeIndex >= route.length && route.length > 0) {
       postRecord(auth?.user.id ?? "", id).catch((e) => {
+        alert("記録の保存に失敗しました");
         console.error(e);
       });
     }

@@ -29,6 +29,7 @@ export default function useRouting() {
       setRoute(res);
       console.log("[useRouting] makeRoute route length", res.length);
     } catch (error) {
+      alert("ルートの生成に失敗しました");
       console.error(error);
     }
   };
@@ -46,6 +47,7 @@ export default function useRouting() {
       setRoute(res);
       console.log("[useRouting] remakeRoute route length", res.length);
     } catch (error) {
+      alert("ルートの生成に失敗しました");
       console.error(error);
     }
   };
