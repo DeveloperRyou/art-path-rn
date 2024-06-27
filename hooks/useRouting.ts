@@ -18,6 +18,8 @@ export default function useRouting() {
   const [routeIndex, setRouteIndex] = useAtom(routeIndexAtom);
 
   const makeRoute = async (uuid: string, currentLocation: LocationObjectCoords) => {
+    setRouteIndex(0);
+    setRoute([]);
     setCurrentUuid(uuid);
     setStartLocation(currentLocation);
     try {
