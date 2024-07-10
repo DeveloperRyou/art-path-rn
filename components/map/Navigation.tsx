@@ -17,21 +17,21 @@ export default function Navigation() {
   const [direction, setDirection] = useState<"straight" | "right" | "left">("straight");
 
   useEffect(() => {
-    if (!route || route.length < 2) {
+    if (!route || route.length < 3) {
       return;
     }
-    if (routeIndex >= route.length) {
+    if (!(routeIndex < route.length - 1)) {
       return;
     }
     const dis = calculateDistance(currentLocation as Coordinate, route[routeIndex + 1]);
     const disRounded = Math.round(dis * 100) / 100;
     setDistance(disRounded);
-    if (disRounded < 0.1 && routeIndex < route.length) {
+    if (disRounded < 0.1 && routeIndex < route.length - 1) {
       setRouteIndex((prev) => prev + 1);
       return;
     }
 
-    if (routeIndex + 2 >= route.length) {
+    if (routeIndex < route.length - 3) {
       const dir = calculateDirection(route[routeIndex], route[routeIndex + 1], route[routeIndex + 2]);
       setDirection(dir);
     } else {
